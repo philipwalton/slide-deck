@@ -1,15 +1,99 @@
 <link href="../polymer/polymer.html" rel="import">
 <link href="a-slide.html" rel="import">
 
-<polymer-element name="a-slide-deck" extends="body" noscript>
+<polymer-element name="a-slide-deck" extends="body">
   <template>
     <style>
       :host(body) {
         height: 100vh;
         margin: 0;
+        overflow: hidden;
         width: 100vw;
       }
     </style>
     <content select="a-slide"></content>
   </template>
+  <script>
+  (function() {
+
+  Polymer('a-slide-deck', {
+
+    ready: function() {
+      this.slides = [].slice.call(this.children);
+      this.i = this.getIndexFromUrl();
+
+      this.slides.forEach(function(slide, i) {
+        if (i < this.i) slide.setAttribute('state', 'prev');
+        if (i === this.i) slide.setAttribute('state', 'current');
+        if (i > this.i) slide.setAttribute('state', 'next');
+      }.bind(this));
+
+      // Throttle navigation to handle fast key repeats.
+      this.navigate = throttle(this.navigate, 200, this);
+    },
+
+    navigate: function(i) {
+      if (i < 0 || i > this.slides.length - 1) return;
+
+      this.slides[i].setAttribute('state', 'current');
+      this.slides[this.i].setAttribute('state', i < this.i ? 'next' : 'prev');
+
+      this.updateUrl(i);
+    },
+
+    updateUrl: function(i) {
+      this.i = i;
+      location.hash = this.i + 1;
+    },
+
+    getIndexFromUrl: function() {
+      var i = Math.floor(location.hash.slice(1));
+      return !i || i > this.slides.length ? 0 : i - 1;
+    },
+
+    onKeyDown: function(e) {
+      switch (e.keyCode) {
+        case 32: // Spacebar.
+        case 39: // Right arrow key.
+          this.navigate(this.i + 1);
+          break;
+        case 37: // Left arrow key.
+          this.navigate(this.i - 1);
+          break;
+      }
+    },
+
+    onHashChange: function() {
+      var i = this.getIndexFromUrl();
+      if (i === this.i) return;
+
+      this.navigate(i);
+    }
+
+  });
+
+
+  addEventListener('keydown', function(e) {
+    document.body.onKeyDown(e);
+  });
+
+
+  addEventListener('hashchange', function(e) {
+    document.body.onHashChange(e);
+  });
+
+
+  function throttle(fn, amount, ctx) {
+    var last = 0;
+    return function() {
+      var now = Date.now();
+      if (last < now - amount) {
+        fn.apply(ctx, arguments);
+        last = now;
+      }
+    }
+  }
+
+  }());
+  </script>
 </polymer-element>
