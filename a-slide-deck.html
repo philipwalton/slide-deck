@@ -23,31 +23,54 @@
       this.i = this.getIndexFromUrl();
 
       this.slides.forEach(function(slide, i) {
-        if (i < this.i) slide.setAttribute('state', 'prev');
-        if (i === this.i) slide.setAttribute('state', 'current');
-        if (i > this.i) slide.setAttribute('state', 'next');
+        if (i < this.i) slide.setAttribute('history', 'past');
+        if (i === this.i) slide.setAttribute('history', 'present');
+        if (i > this.i) slide.setAttribute('history', 'future');
       }.bind(this));
-
-      // Throttle navigation to handle fast key repeats.
-      this.navigate = throttle(this.navigate, 200, this);
     },
+
+
+    /**
+     * Get the slide at the current index.
+     */
+    get slide() {
+      return this.slides[this.i];
+    },
+
+
+    /**
+     * Navigate forward in the slide-deck. Check the current slide for
+     * fragments before switching to a different slide.
+     */
+    forward: function() {
+      this.slide.forward() || this.navigate(this.i + 1);
+    },
+
+
+    /**
+     * Navigate backward in the slide-deck. Check the current slide for
+     * fragments before switching to a different slide.
+     */
+    back: function() {
+      this.slide.back() || this.navigate(this.i - 1);
+    },
+
 
     navigate: function(i) {
       if (i < 0 || i > this.slides.length - 1) return;
 
-      var delta = this.i < i ? 1 : -1;
-      var state = this.i < i ? 'prev' : 'next';
+      var direction = i > this.i ? 1 : -1;
 
-      // Update the state for each slide between the current one and the one
-      // we're navigating to.
+      // Update the history for each slide between this and the target.
       while (i !== this.i) {
-        this.slides[this.i].setAttribute('state', state);
-        this.i += delta;
+        this.slide.setAttribute('history', direction > 0 ? 'past' : 'future');
+        this.i += direction;
       }
-      this.slides[i].setAttribute('state', 'current');
 
+      this.slide.setAttribute('history', 'present');
       this.updateUrl(i);
     },
+
 
     updateUrl: function(i) {
       this.i = i;
@@ -63,10 +86,10 @@
       switch (e.keyCode) {
         case 32: // Spacebar.
         case 39: // Right arrow key.
-          this.navigate(this.i + 1);
+          this.forward();
           break;
         case 37: // Left arrow key.
-          this.navigate(this.i - 1);
+          this.back();
           break;
       }
     },
@@ -90,17 +113,6 @@
     document.body.onHashChange(e);
   });
 
-
-  function throttle(fn, amount, ctx) {
-    var last = 0;
-    return function() {
-      var now = Date.now();
-      if (last < now - amount) {
-        fn.apply(ctx, arguments);
-        last = now;
-      }
-    }
-  }
 
   }());
   </script>
