@@ -35,8 +35,16 @@
     navigate: function(i) {
       if (i < 0 || i > this.slides.length - 1) return;
 
+      var delta = this.i < i ? 1 : -1;
+      var state = this.i < i ? 'prev' : 'next';
+
+      // Update the state for each slide between the current one and the one
+      // we're navigating to.
+      while (i !== this.i) {
+        this.slides[this.i].setAttribute('state', state);
+        this.i += delta;
+      }
       this.slides[i].setAttribute('state', 'current');
-      this.slides[this.i].setAttribute('state', i < this.i ? 'next' : 'prev');
 
       this.updateUrl(i);
     },
