@@ -40,7 +40,7 @@
 
     /**
      * Navigate forward in the slide-deck. Check the current slide for
-     * fragments before switching to a different slide.
+     * additional parts before switching to a different slide.
      */
     forward: function() {
       this.slide.forward() || this.navigate(this.i + 1);
@@ -49,7 +49,7 @@
 
     /**
      * Navigate backward in the slide-deck. Check the current slide for
-     * fragments before switching to a different slide.
+     * additional parts before switching to a different slide.
      */
     back: function() {
       this.slide.back() || this.navigate(this.i - 1);

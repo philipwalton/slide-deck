@@ -4,16 +4,19 @@
   <template>
     <style>
       :host {
-        box-sizing: border-box;
+        align-items: center;
         display: flex;
-        flex-direction: column;
         height: 100%;
         justify-content: center;
         opacity: 0;
-        padding: 0 10%;
         position: absolute;
         transition: all .5s cubic-bezier(.4,0,.2,1);
         width: 100%;
+      }
+
+      div {
+        width: 1280px;
+        max-height: 720px;
       }
 
       :host([history=past]) {
@@ -27,17 +30,19 @@
         transform: translate3d(0, 0, 0);
       }
 
-      ::content .fragment {
+      ::content [part] {
         opacity: 0;
         transition: all .333s ease;
       }
 
-      ::content .fragment[visible] {
+      ::content [part][active] {
         opacity: 1;
       }
 
     </style>
-    <content></content>
+    <div>
+      <content></content>
+    </div>
   </template>
   <script>
 
@@ -45,7 +50,7 @@
 
     ready: function() {
       this.i = 0;
-      this.fragments = [].slice.call(this.querySelectorAll('.fragment') || []);
+      this.fragments = [].slice.call(this.querySelectorAll('[part]') || []);
     },
 
     get fragment() {
@@ -55,7 +60,7 @@
     forward: function() {
       if (this.i >= this.fragments.length) return false;
 
-      this.fragment.setAttribute('visible', '');
+      this.fragment.setAttribute('active', '');
       this.i++;
       return true;
     },
@@ -64,7 +69,7 @@
       if (this.i === 0) return false;
 
       this.i--;
-      this.fragment.removeAttribute('visible');
+      this.fragment.removeAttribute('active');
       return true;
     }
 
