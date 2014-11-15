@@ -1,22 +1,37 @@
 <link href="../polymer/polymer.html" rel="import">
 <link href="a-slide.html" rel="import">
 
-<polymer-element name="a-slide-deck" extends="body">
-  <template>
-    <style>
-      :host(body) {
-        height: 100vh;
-        margin: 0;
-        overflow: hidden;
-        width: 100vw;
-      }
-    </style>
+<polymer-element name="a-slide-deck" attributes="width height" extends="body">
+<template>
+  <style>
+    :host(body) {
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      position: absolute;
+      width: 100vw;
+    }
+    #container {
+      box-sizing: border-box;
+      left: 50%;
+      position: absolute;
+      top: 50%;
+    }
+  </style>
+  <div id="container">
     <content select="a-slide"></content>
-  </template>
-  <script>
-  (function() {
+  </div>
+</template>
+<script>
+(function() {
 
   Polymer('a-slide-deck', {
+
+    width: 1280,
+
+    height: 720,
+
+    padding: 80,
 
     ready: function() {
       this.slides = [].slice.call(this.children);
@@ -27,6 +42,8 @@
         if (i === this.i) slide.setAttribute('history', 'present');
         if (i > this.i) slide.setAttribute('history', 'future');
       }.bind(this));
+
+      this.onResize();
     },
 
 
@@ -77,10 +94,12 @@
       location.hash = this.i + 1;
     },
 
+
     getIndexFromUrl: function() {
       var i = Math.floor(location.hash.slice(1));
       return !i || i > this.slides.length ? 0 : i - 1;
     },
+
 
     onKeyDown: function(e) {
       switch (e.keyCode) {
@@ -94,13 +113,40 @@
       }
     },
 
+
     onHashChange: function() {
       var i = this.getIndexFromUrl();
       if (i === this.i) return;
 
       this.navigate(i);
+    },
+
+
+    onResize: function() {
+      var css = this.$.container.style;
+
+      css.width = (this.width - this.padding) + 'px';
+      css.height = (this.height - this.padding) + 'px';
+      css.marginLeft = -((this.width / 2) - (this.padding / 2)) + 'px';
+      css.marginTop = -((this.height / 2) - (this.padding / 2)) + 'px';
+
+      if (this.clientWidth < this.width || this.clientHeight < this.height) {
+        var hRatio = this.clientWidth / this.width;
+        var vRatio = this.clientHeight / this.height;
+        var scale = Math.min(vRatio, hRatio);
+
+        css.transform = 'scale(' + scale + ')';
+      }
+      else {
+        css.transform = null;
+      }
     }
 
+  });
+
+
+  addEventListener('resize', function(e) {
+    document.body.onResize(e);
   });
 
 
@@ -113,7 +159,6 @@
     document.body.onHashChange(e);
   });
 
-
-  }());
-  </script>
+}());
+</script>
 </polymer-element>
