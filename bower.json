@@ -1,0 +1,20 @@
+{
+  "name": "slide-deck",
+  "version": "0.0.1",
+  "homepage": "https://github.com/philipwalton/slide-deck",
+  "authors": [
+    "Philip Walton <philip@philipwalton.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "..",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^0.5.1"
+  }
+}
