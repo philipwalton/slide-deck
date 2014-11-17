@@ -10,9 +10,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "..",
-    "test",
-    "tests"
+    "test"
   ],
   "dependencies": {
     "polymer": "^0.5.1"
