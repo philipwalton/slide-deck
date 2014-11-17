@@ -1,0 +1,44 @@
+body {
+  color: #333;
+  font: 30px/1.2 Helvetica Neue, sans-serif;
+  letter-spacing: -0.02em;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: hsl(15, 90%, 50%);
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Helvetica Neue, sans-serif;
+  font-weight: 700;
+  letter-spacing: -.04em;
+  line-height: 1;
+
+}
+
+h1 {
+  font-size: 4.5em;
+  margin: 0 0 calc(1em / 9);
+}
+
+h2 {
+  font-size: 3em;
+  margin: 0 0 calc(1em / 2);
+}
+
+h3 {
+  font-size: 2em;
+  font-weight: 400;
+  margin: 0 0 calc(1em / 1.5);
+}
+
+p {
+  margin: 0 0 1em;
+}
