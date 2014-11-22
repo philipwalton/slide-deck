@@ -3,43 +3,48 @@
 <head>
   <meta charset="utf-8">
   <title>Slider</title>
+
   <link href="a-slide-deck.html" rel="import">
+  <link href="a-slide.html" rel="import">
+  <link href="code-block.html" rel="import">
+
+  <link href="assets/theme.css" rel="stylesheet">
 </head>
 <body is="a-slide-deck">
+
   <a-slide>
-    <h1>Slide One</h1>
-    <p class="fragment">Esse quis dolore autem delenit eros dolore dignissim et.</p>
-    <p class="fragment">Nostrud duis, consequat ut delenit dolore ea consectetuer odio facilisis dolor dolore eum facilisis, exerci veniam feugait nulla dolore, magna aliquip.</p>
-    <p class="fragment">At duis diam praesent volutpat minim commodo in duis lobortis tation dolor, dolor magna nulla commodo enim iriure velit.</p>
+    <h1>Slider</h1>
+    <h3>A Web Component presentation framework.</h3>
+    <p>By <a href="http://philipwalton.com">Philip Walton</a>
+      / <a href="https://twitter.com/philwalton">@philwalton</a></p>
   </a-slide>
+
   <a-slide>
-    <h1>Slide Two</h1>
-    <p class="fragment">Ad diam nisl aliquip luptatum vulputate augue enim minim, et aliquam luptatum eu minim vel at molestie autem in nonummy ad.</p>
-    <p class="fragment">Dolore qui feugait eu te esse iusto molestie eu.</p>
-    <p class="fragment">Nisl illum sit vel te vel ex lobortis wisi ullamcorper qui zzril et feugait accumsan.</p>
-    <p class="fragment">Euismod adipiscing odio ex vulputate tation illum dignissim in ut eum et minim feugiat suscipit, dolore wisi.</p>
-    <p class="fragment">Autem, erat vulputate vero vel elit facilisi te iusto augue duis ea blandit et in vel tincidunt, esse lorem tincidunt augue.</p>
+    <h2>Slide with parts</h2>
+    <p part>Ad diam nisl aliquip luptatum vulputate augue enim minim, et aliquam luptatum eu minim vel at molestie autem in nonummy ad.</p>
+    <p part>Dolore qui feugait eu te esse iusto molestie eu.</p>
+    <p part>Nisl illum sit vel te vel ex lobortis wisi ullamcorper qui zzril et feugait accumsan.</p>
+    <p part>Euismod adipiscing odio ex vulputate tation illum dignissim in ut eum et minim feugiat suscipit, dolore wisi.</p>
+    <p part>Autem, erat vulputate vero vel elit facilisi te iusto augue duis ea blandit et in vel tincidunt, esse lorem tincidunt augue.</p>
   </a-slide>
+
   <a-slide>
-    <h1>Slide Three</h1>
-    <p class="fragment">Duis dolore dignissim et, commodo duis, consequat ut delenit dolore ea consectetuer odio facilisis dolor dolore.
-    <p class="fragment">Nostrud facilisis, exerci veniam feugait nulla dolore, magna aliquip nulla duis diam praesent volutpat minim commodo in duis lobortis tation dolor, dolor.</p>
-    <p class="fragment">Iusto nulla commodo enim iriure velit augue ad exerci autem velit.</p>
-    <p class="fragment">Vulputate delenit blandit, adipiscing iriure, ut eros nulla, accumsan amet vel illum accumsan suscipit wisi nibh hendrerit dolore delenit hendrerit in vero.</p>
-    <p class="fragment">Iusto enim odio sed nisl nulla dignissim zzril veniam ut sed facilisi te esse nostrud et in.</p>
-    <p class="fragment">Accumsan praesent euismod ea eros luptatum dolore exerci dolore nibh, at feugiat ullamcorper suscipit qui, velit odio, suscipit consequat, autem.</p>
+    <h2>Code blocks</h2>
+    <code-block language="javascript">
+      // Create an object that will be the new element's prototype.
+      var HelloWorld = Object.create(HTMLElement.prototype);
+
+      // Add a callback to run whenever a new <hello-world> tag is created.
+      HelloWorld.createdCallback = function() {
+        this.createShadowRoot().innerHTML =
+          '<style>code { color: red }</style>' +
+          '<p>Hello, <code><content></content></code></p>';
+      }
+
+      // Register the element.
+      document.registerElement('hello-world', { prototype: HelloWorld });
+    </code-block>
   </a-slide>
-  <a-slide>
-    <h1>Slide Four</h1>
-    <p class="fragment">Molestie vero vel elit facilisi te iusto augue duis ea blandit et in vel tincidunt.
-    <p class="fragment">Quis lorem tincidunt augue consequat duis tation feugait quis nostrud qui wisi duis at iusto dolor et lobortis dolor quis molestie nostrud, amet.</p>
-    <p class="fragment">Veniam consequat facilisis ut vel, nostrud euismod at nulla laoreet, elit feugiat.</p>
-  </a-slide>
-  <a-slide>
-    <h1>Slide Five</h1>
-    <p class="fragment">Sit in duis lobortis tation dolor, dolor magna nulla commodo enim iriure velit.
-    <p class="fragment">Consequat ad exerci autem velit eum delenit blandit, adipiscing iriure, ut eros nulla, accumsan amet vel illum accumsan.</p>
-    <p class="fragment">In wisi nibh hendrerit dolore delenit hendrerit in vero et enim odio sed nisl nulla dignissim zzril veniam ut sed.</p>
-  </a-slide>
+
 </body>
 </html>
