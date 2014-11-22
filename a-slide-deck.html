@@ -4,7 +4,7 @@
 <polymer-element name="a-slide-deck" attributes="width height" extends="body">
 <template>
   <style>
-    :host(body) {
+    :host {
       height: 100vh;
       margin: 0;
       overflow: hidden;
@@ -110,10 +110,12 @@ Polymer('a-slide-deck', {
     switch (e.keyCode) {
       case 32: // Spacebar.
       case 39: // Right arrow key.
+        e.preventDefault();
         this.forward();
         break;
       case 37: // Left arrow key.
         this.back();
+        e.preventDefault();
         break;
     }
   },
@@ -129,15 +131,17 @@ Polymer('a-slide-deck', {
 
   onResize: function() {
     var css = this.$.container.style;
+    var offsetWidth = this.offsetWidth;
+    var offsetHeight = this.offsetHeight;
 
     css.width = (this.width - this.padding) + 'px';
     css.height = (this.height - this.padding) + 'px';
     css.marginLeft = -((this.width / 2) - (this.padding / 2)) + 'px';
     css.marginTop = -((this.height / 2) - (this.padding / 2)) + 'px';
 
-    if (this.clientWidth < this.width || this.clientHeight < this.height) {
-      var hRatio = this.clientWidth / this.width;
-      var vRatio = this.clientHeight / this.height;
+    if (offsetWidth < this.width || offsetHeight < this.height) {
+      var hRatio = offsetWidth / this.width;
+      var vRatio = offsetHeight / this.height;
       var scale = Math.min(vRatio, hRatio);
 
       css.transform = 'scale(' + scale + ')';
