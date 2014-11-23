@@ -1,6 +1,6 @@
 body {
   color: #333;
-  font: 30px/1.2 Helvetica Neue, sans-serif;
+  font: 400 36px/1.1 Helvetica Neue, sans-serif;
   letter-spacing: -0.02em;
   text-rendering: optimizeLegibility;
 }
@@ -16,29 +16,35 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: Helvetica Neue, sans-serif;
   font-weight: 700;
   letter-spacing: -.04em;
   line-height: 1;
-
 }
 
 h1 {
-  font-size: 4.5em;
-  margin: 0 0 calc(1em / 9);
+  font-size: 3.5em;
+  margin: 0 0 calc(1em / 3.5);
 }
 
 h2 {
-  font-size: 3em;
-  margin: 0 0 calc(1em / 2);
+  font-size: 2.5em;
+  margin: 0 0 calc(1em / 2.5);
 }
 
 h3 {
-  font-size: 2em;
-  font-weight: 400;
-  margin: 0 0 calc(1em / 1.5);
+  font-size: 1.75em;
+  font-weight: 500;
+  margin: 0 0 calc(1em / 1.75);
 }
 
 p {
-  margin: 0 0 1em;
+  margin: 0 0 .75em;
+}
+
+ul {
+  list-style: square;
+}
+
+li {
+  margin-bottom: .333em;
 }
