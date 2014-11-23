@@ -65,7 +65,10 @@ Polymer('a-slide-deck', {
    * additional parts before switching to a different slide.
    */
   forward: function() {
-    this.slide.forward() || this.navigate(this.i + 1);
+    if (!this.slide.forward()) {
+      this.navigate(this.i + 1);
+      this.slide.hideParts();
+    }
   },
 
 
@@ -74,7 +77,10 @@ Polymer('a-slide-deck', {
    * additional parts before switching to a different slide.
    */
   back: function() {
-    this.slide.back() || this.navigate(this.i - 1);
+    if (!this.slide.back()) {
+      this.navigate(this.i - 1);
+      this.slide.showParts();
+    }
   },
 
 

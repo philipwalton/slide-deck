@@ -55,6 +55,20 @@
       return this.fragments[this.i];
     },
 
+    hideParts: function() {
+      this.i = 0;
+      this.fragments.forEach(function(fragment) {
+        fragment.removeAttribute('active');
+      })
+    },
+
+    showParts: function() {
+      this.i = this.fragments.length;
+      this.fragments.forEach(function(fragment) {
+        fragment.setAttribute('active', '');
+      })
+    },
+
     forward: function() {
       if (this.i >= this.fragments.length) return false;
 
