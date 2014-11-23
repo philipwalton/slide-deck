@@ -9,10 +9,9 @@
       background: #f8f8f8;
       border: 1px solid #e0e0e0;
       border-radius: 4px;
-      font: .667em/1.4 'Menlo', monospace;
-      line-height: 1.4;
+      font: .6em/1.25 'Menlo', monospace;
       margin: 1em 0;
-      padding: 1em 1.5em;
+      padding: 1em;
     }
 
     pre {
@@ -31,7 +30,7 @@
     }
 
     i {
-      color: #aaa;
+      color: #bbb;
       font: inherit;
     }
     i * {
@@ -174,7 +173,12 @@ Polymer('code-block', {
         .replace(/&gt;/g, '>'); // Unescape closing angle brackets.
     }).join('\n');
 
-    this.$.code.innerHTML = hljs.highlight(this.language, code, true).value
+    // Not specifying a language disables syntax highlighting.
+    if (this.language) {
+      code = hljs.highlight(this.language, code, true).value;
+    }
+
+    this.$.code.innerHTML = code
         // highlight content between `**` characters.
         .replace(/\*\*([\s\S]+?)\*\*/g, '<mark>$1</mark>')
         // mute content between `~~` characters.
@@ -183,4 +187,3 @@ Polymer('code-block', {
 })
 </script>
 </polymer-element>
-
