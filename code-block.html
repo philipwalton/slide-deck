@@ -1,169 +1,178 @@
 <script src="assets/highlight.js"></script>
 <link href="../polymer/polymer.html" rel="import">
 
-<polymer-element name="code-block" attributes="language">
+<dom-module id="code-block">
+<style>
+  :host {
+    display: block;
+    background: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font: 1em/1.25 'Menlo', monospace;
+    margin: 1em 0;
+  }
+
+  :host > pre {
+    display: block;
+    font: inherit;
+    font-size: .6em;
+    padding: 1em;
+    margin: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: pre;
+    -webkit-text-size-adjust: none;
+  }
+
+  ::content mark {
+    background-color: #ff7;
+    color: inherit;
+  }
+
+  ::content i {
+    color: #bbb;
+    font: inherit;
+  }
+  ::content i * {
+    color: inherit!important;
+    font: inherit;
+  }
+
+  ::content .comment,
+  ::content .template_comment,
+  ::content .diff .header,
+  ::content .javadoc {
+    color: #998; /* hsl(60, 8%, 57%); */
+    font-style: italic;
+  }
+
+  ::content .keyword,
+  ::content .css .rule .keyword,
+  ::content .winutils,
+  ::content .javascript .title,
+  ::content .nginx .title,
+  ::content .subst,
+  ::content .request,
+  ::content .status {
+    color: #333; /* hsl(0, 0%, 20%); */
+    font-weight: bold;
+  }
+
+  ::content .number,
+  ::content .hexcolor,
+  ::content .ruby .constant {
+    color: #008080; /* hsl(180, 100%, 25%); */
+  }
+
+  ::content .string,
+  ::content .tag .value,
+  ::content .phpdoc,
+  ::content .dartdoc,
+  ::content .tex .formula {
+    color: #d14; /* hsl(345, 86%, 47%); */
+  }
+
+  ::content .title,
+  ::content .id,
+  ::content .scss .preprocessor {
+    color: #900;
+    font-weight: bold;
+  }
+
+  ::content .javascript .title,
+  ::content .list .keyword,
+  ::content .subst {
+    font-weight: normal;
+  }
+
+  ::content .class .title,
+  ::content .type,
+  ::content .vhdl .literal,
+  ::content .tex .command {
+    color: #458;
+    font-weight: bold;
+  }
+
+  ::content .tag,
+  ::content .tag .title,
+  ::content .rules .property,
+  ::content .django .tag .keyword {
+    color: #000080;
+    font-weight: normal;
+  }
+
+  ::content .attribute,
+  ::content .variable,
+  ::content .lisp .body {
+    color: #008080;
+  }
+
+  ::content .regexp {
+    color: #009926;
+  }
+
+  ::content .symbol,
+  ::content .ruby .symbol .string,
+  ::content .lisp .keyword,
+  ::content .clojure .keyword,
+  ::content .scheme .keyword,
+  ::content .tex .special,
+  ::content .prompt {
+    color: #990073;
+  }
+
+  ::content .built_in {
+    color: #0086b3;
+  }
+
+  ::content .preprocessor,
+  ::content .pragma,
+  ::content .pi,
+  ::content .doctype,
+  ::content .shebang,
+  ::content .cdata {
+    color: #999;
+    font-weight: bold;
+  }
+
+  ::content .deletion {
+    background: #fdd;
+  }
+
+  ::content .addition {
+    background: #dfd;
+  }
+
+  ::content .diff .change {
+    background: #0086b3;
+  }
+
+  ::content .chunk {
+    color: #aaa;
+  }
+</style>
+
 <template>
-  <style>
-    :host {
-      display: block;
-      background: #f8f8f8;
-      border: 1px solid #e0e0e0;
-      border-radius: 4px;
-      font: 1em/1.25 'Menlo', monospace;
-      margin: 1em 0;
-    }
-
-    pre {
-      display: block;
-      font: inherit;
-      font-size: .6em;
-      padding: 1em;
-      margin: 0;
-      overflow-x: auto;
-      overflow-y: hidden;
-      white-space: pre;
-      -webkit-text-size-adjust: none;
-    }
-
-    mark {
-      background-color: #ff7;
-      color: inherit;
-    }
-
-    i {
-      color: #bbb;
-      font: inherit;
-    }
-    i * {
-      color: inherit!important;
-      font: inherit;
-    }
-
-    .comment,
-    .template_comment,
-    .diff .header,
-    .javadoc {
-      color: #998; /* hsl(60, 8%, 57%); */
-      font-style: italic;
-    }
-
-    .keyword,
-    .css .rule .keyword,
-    .winutils,
-    .javascript .title,
-    .nginx .title,
-    .subst,
-    .request,
-    .status {
-      color: #333; /* hsl(0, 0%, 20%); */
-      font-weight: bold;
-    }
-
-    .number,
-    .hexcolor,
-    .ruby .constant {
-      color: #008080; /* hsl(180, 100%, 25%); */
-    }
-
-    .string,
-    .tag .value,
-    .phpdoc,
-    .dartdoc,
-    .tex .formula {
-      color: #d14; /* hsl(345, 86%, 47%); */
-    }
-
-    .title,
-    .id,
-    .scss .preprocessor {
-      color: #900;
-      font-weight: bold;
-    }
-
-    .javascript .title,
-    .list .keyword,
-    .subst {
-      font-weight: normal;
-    }
-
-    .class .title,
-    .type,
-    .vhdl .literal,
-    .tex .command {
-      color: #458;
-      font-weight: bold;
-    }
-
-    .tag,
-    .tag .title,
-    .rules .property,
-    .django .tag .keyword {
-      color: #000080;
-      font-weight: normal;
-    }
-
-    .attribute,
-    .variable,
-    .lisp .body {
-      color: #008080;
-    }
-
-    .regexp {
-      color: #009926;
-    }
-
-    .symbol,
-    .ruby .symbol .string,
-    .lisp .keyword,
-    .clojure .keyword,
-    .scheme .keyword,
-    .tex .special,
-    .prompt {
-      color: #990073;
-    }
-
-    .built_in {
-      color: #0086b3;
-    }
-
-    .preprocessor,
-    .pragma,
-    .pi,
-    .doctype,
-    .shebang,
-    .cdata {
-      color: #999;
-      font-weight: bold;
-    }
-
-    .deletion {
-      background: #fdd;
-    }
-
-    .addition {
-      background: #dfd;
-    }
-
-    .diff .change {
-      background: #0086b3;
-    }
-
-    .chunk {
-      color: #aaa;
-    }
-  </style>
-  <pre class="{{ language }}" id="code"></pre>
+  <pre class$="[[language]]" id="code">
+    <content></content>
+  </pre>
 </template>
 
 <script>
 // A class prefix is unnecessary since these elements will be in shadow DOM.
 hljs.configure({classPrefix: ''});
 
-Polymer('code-block', {
+Polymer({
+
+  is: 'code-block',
+
+  properties: {
+    language: String
+  },
 
   ready: function() {
 
-    var lines = this.innerHTML.split('\n').slice(1, -1);
+    var lines = this.$.code.innerHTML.split('\n').slice(1, -1);
     var whiteSpace = /^\s+/.exec(lines[0]);
     var whitespaceChars = (whiteSpace && whiteSpace[0].length) || 0;
 
@@ -187,4 +196,4 @@ Polymer('code-block', {
   }
 })
 </script>
-</polymer-element>
+</dom-module>

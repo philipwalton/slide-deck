@@ -1,91 +1,92 @@
 <link href="../polymer/polymer.html" rel="import">
 
-<polymer-element name="a-slide">
-  <template>
-    <style>
-      :host {
-        align-items: center;
-        bottom: 0;
-        display: flex;
-        left: 0;
-        opacity: 0;
-        position: absolute;
-        right: 0;
-        top: 0;
-        transition: all .5s cubic-bezier(.4,0,.2,1);
-      }
+<dom-module id="a-slide">
+<style>
+  :host {
+    align-items: center;
+    bottom: 0;
+    display: flex;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: all .5s cubic-bezier(.4,0,.2,1);
+  }
 
-      div {
-        flex: 1;
-      }
+  div {
+    flex: 1;
+  }
 
-      :host([history=past]) {
-        transform: translate3d(-100%, 0, 0);
-      }
-      :host([history=future]) {
-        transform: translate3d(100%, 0, 0);
-      }
-      :host([history=present]) {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-      }
+  :host([history=past]) {
+    transform: translate3d(-100%, 0, 0);
+  }
+  :host([history=future]) {
+    transform: translate3d(100%, 0, 0);
+  }
+  :host([history=present]) {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 
-      ::content [part] {
-        opacity: 0;
-        transition: all .333s ease;
-      }
-      ::content [part][active] {
-        opacity: 1;
-      }
-    </style>
-    <div>
-      <content></content>
-    </div>
-  </template>
-  <script>
+  ::content [part] {
+    opacity: 0;
+    transition: all .333s ease;
+  }
+  ::content [part][active] {
+    opacity: 1;
+  }
+</style>
 
-  Polymer('a-slide', {
+<template>
+  <div>
+    <content></content>
+  </div>
+</template>
 
-    ready: function() {
-      this.i = 0;
-      this.fragments = [].slice.call(this.querySelectorAll('[part]') || []);
-    },
+<script>
+Polymer({
 
-    get fragment() {
-      return this.fragments[this.i];
-    },
+  is: 'a-slide',
 
-    hideParts: function() {
-      this.i = 0;
-      this.fragments.forEach(function(fragment) {
-        fragment.removeAttribute('active');
-      })
-    },
+  ready: function() {
+    this.i = 0;
+    this.fragments = [].slice.call(this.querySelectorAll('[part]') || []);
+  },
 
-    showParts: function() {
-      this.i = this.fragments.length;
-      this.fragments.forEach(function(fragment) {
-        fragment.setAttribute('active', '');
-      })
-    },
+  get fragment() {
+    return this.fragments[this.i];
+  },
 
-    forward: function() {
-      if (this.i >= this.fragments.length) return false;
+  hideParts: function() {
+    this.i = 0;
+    this.fragments.forEach(function(fragment) {
+      fragment.removeAttribute('active');
+    })
+  },
 
-      this.fragment.setAttribute('active', '');
-      this.i++;
-      return true;
-    },
+  showParts: function() {
+    this.i = this.fragments.length;
+    this.fragments.forEach(function(fragment) {
+      fragment.setAttribute('active', '');
+    })
+  },
 
-    back: function() {
-      if (this.i === 0) return false;
+  forward: function() {
+    if (this.i >= this.fragments.length) return false;
 
-      this.i--;
-      this.fragment.removeAttribute('active');
-      return true;
-    }
+    this.fragment.setAttribute('active', '');
+    this.i++;
+    return true;
+  },
 
-  });
+  back: function() {
+    if (this.i === 0) return false;
 
-  </script>
-</polymer-element>
+    this.i--;
+    this.fragment.removeAttribute('active');
+    return true;
+  }
+});
+</script>
+</dom-module>

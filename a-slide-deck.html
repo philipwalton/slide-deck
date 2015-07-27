@@ -1,41 +1,50 @@
 <link href="../polymer/polymer.html" rel="import">
 <link href="a-slide.html" rel="import">
 
-<polymer-element name="a-slide-deck" attributes="width height" extends="body">
+<dom-module id="a-slide-deck">
+<style>
+  :host {
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    position: absolute;
+    width: 100vw;
+  }
+  #container {
+    box-sizing: border-box;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+  }
+</style>
 <template>
-  <style>
-    :host {
-      height: 100vh;
-      margin: 0;
-      overflow: hidden;
-      position: absolute;
-      width: 100vw;
-    }
-    #container {
-      box-sizing: border-box;
-      left: 50%;
-      position: absolute;
-      top: 50%;
-    }
-  </style>
   <div id="container">
     <content select="a-slide"></content>
   </div>
 </template>
 <script>
-Polymer('a-slide-deck', {
+Polymer({
 
-  width: 1280,
+  is: 'a-slide-deck',
 
-  height: 720,
-
-  padding: 80,
+  properties: {
+    width: {
+      type: Number,
+      value: 1280
+    },
+    height: {
+      type: Number,
+      value: 720
+    },
+    padding: {
+      type: Number,
+      value: 80
+    }
+  },
 
   ready: function() {
 
-    this.slides = [].slice.call(this.children).filter(function(child) {
-      return child.matches('a-slide');
-    });
+    this.slides = [].slice.call(this.querySelectorAll('a-slide'));
     this.i = this.getIndexFromUrl();
 
     this.slides.forEach(function(slide, i) {
@@ -48,7 +57,7 @@ Polymer('a-slide-deck', {
     addEventListener('keydown', this.onKeyDown.bind(this));
     addEventListener('hashchange', this.onHashChange.bind(this));
 
-    this.onResize();
+    document.addEventListener('WebComponentsReady', this.onResize.bind(this));
   },
 
 
@@ -159,4 +168,4 @@ Polymer('a-slide-deck', {
 
 });
 </script>
-</polymer-element>
+</dom-module>

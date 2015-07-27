@@ -13,6 +13,6 @@
     "test"
   ],
   "dependencies": {
-    "polymer": "^0.5.1"
+    "polymer": "^1.0.6"
   }
 }
