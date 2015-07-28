@@ -75,8 +75,7 @@ Polymer({
    */
   forward: function() {
     if (!this.slide.forward()) {
-      this.navigate(this.i + 1);
-      this.slide.hideParts();
+      this.navigate(this.i + 1) && this.slide.hideParts();
     }
   },
 
@@ -87,8 +86,7 @@ Polymer({
    */
   back: function() {
     if (!this.slide.back()) {
-      this.navigate(this.i - 1);
-      this.slide.showParts();
+      this.navigate(this.i - 1) && this.slide.showParts();
     }
   },
 
@@ -106,6 +104,8 @@ Polymer({
 
     this.slide.setAttribute('history', 'present');
     this.updateUrl(i);
+
+    return true;
   },
 
 
